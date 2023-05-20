@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phân loại văn bản</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        resize: vertical;
+      }
+
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Phân loại văn bản</h1>
+      <form id="textForm" action="/" method="post">
+        <label for="text">Nhập văn bản:</label>
+        <textarea id="text" name="text" required></textarea>
+        <button type="submit" value="Phân tích">Dự đoán</button>
+      </form>
+      <div id="resultContainer" class="result" style="display: none;">
+        <div id="prediction"></div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  function handleSubmit(event) {
+    event.preventDefault()
+
+    // Lấy dữ liệu từ form
+    var formData = new FormData(event.target)
+    var text = formData.get('text')
+
+    // Gửi dữ liệu bằng Ajax
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST', '{{ url_for("predict") }}', true)
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText)
+        displayResult(response.prediction)
+      } else {
+        console.error('Error:', xhr.statusText)
+      }
+    }
+    xhr.onerror = function () {
+      console.error('Request failed')
+    }
+    xhr.send('text=' + encodeURIComponent(text))
+  }
+  function displayResult(prediction) {
+    var resultContainer = document.getElementById('resultContainer')
+    var predictionElement = document.getElementById('prediction')
+    var resultHTML = '<h3>Kết quả:</h3><p>' + prediction[0] + '</p>'
+    var predictionHTML = '<h3>Tỉ lệ dự đoán:</h3>'
+    for (var i = 1; i < prediction.length; i++) {
+      predictionHTML += '<p>' + prediction[i] + '</p>'
+    }
+    predictionElement.innerHTML = resultHTML + predictionHTML
+    resultContainer.style.display = 'block'
+  }
+  var textForm = document.getElementById('textForm')
+  textForm.addEventListener('submit', handleSubmit)
+</script>
