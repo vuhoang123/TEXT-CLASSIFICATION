@@ -6,6 +6,8 @@ https://drive.google.com/file/d/1-O246JNfTtSg68s2NAj82BbCBNR9UqSa/view?usp=share
 
 Put file "model.pt" in folder model
 
-#REFFERENCES
+run "python app.py" to start
+
+# REFERENCE 
 
 https://www.kaggle.com/code/tientrungcao/vntc-text-classification/notebook
