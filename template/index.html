@@ -90,12 +90,8 @@
   function displayResult(prediction) {
     var resultContainer = document.getElementById('resultContainer')
     var predictionElement = document.getElementById('prediction')
-    var resultHTML = '<h3>Kết quả:</h3><p>' + prediction[0] + '</p>'
-    var predictionHTML = '<h3>Tỉ lệ dự đoán:</h3>'
-    for (var i = 1; i < prediction.length; i++) {
-      predictionHTML += '<p>' + prediction[i] + '</p>'
-    }
-    predictionElement.innerHTML = resultHTML + predictionHTML
+    var resultHTML = '<h3>Kết quả:</h3><p>' + prediction+ '</p>'
+    predictionElement.innerHTML = resultHTML
     resultContainer.style.display = 'block'
   }
   var textForm = document.getElementById('textForm')
