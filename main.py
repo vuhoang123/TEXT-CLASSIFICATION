@@ -66,5 +66,5 @@ def predict_category(text):
     result.append(list(category2id.keys())[list(category2id.values()).index(pred_label_id)])
     for label, probability in zip(category2id.keys(), label_probabilities):
         result.append(f"{label}: {probability:.4f}")
-    print(result);
+
     return result
